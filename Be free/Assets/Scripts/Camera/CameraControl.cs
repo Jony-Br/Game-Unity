@@ -15,8 +15,10 @@ public class CameraControl : MonoBehaviour
 
     private void Update()
     {
+        
         cam.transform.position = CalculateLerp.CalcLerp(Mathf.Clamp01(t),
-            P0.position, P1.position, P2.position, P3.position);
+             P0.position, P1.position, P2.position, P3.position);
+
         cam.transform.LookAt(lookPoint);
     }
 }
