@@ -8,42 +8,41 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private Transform P1;
     [SerializeField] private Transform P2;
     [SerializeField] private Vector3 tempPoint;
-    [SerializeField] private Transform lookPoint; 
-    [Range(0f,1f),SerializeField] private float t = 0.5f;
+    [SerializeField] private Transform lookPoint;
+    [Range(0f, 1f), SerializeField] private float t = 0.5f;
     [SerializeField] private Vector3[] cameraLocs;
+
     private bool camCheckpoint = false;
     private bool swiping = false;
     private bool transferingToNewPoint = false;
     private int iter = 1;
+
     private void Start()
     {
         transform.LookAt(lookPoint);
     }
+
     private void Update()
     {
-        if (transferingToNewPoint)
+      
+        if (!swiping && Input.GetKey("d"))
         {
-            t += 0.6f * Time.deltaTime;
-            transform.position = CalculateLerp.CalcLerp(t, tempPoint, P0.position);
-            if (t >= 1f) {
-                transferingToNewPoint = false;
-                t = 0f;
-            }
-            transform.LookAt(lookPoint);
-        }
-        else if (!swiping && Input.GetKey("d"))
-        {
+            Debug.Log("Error!!!");
             swiping = true;
+
+            camCheckpoint = false;
+            transferingToNewPoint = false;
         }
         else if (swiping)
         {
-            t += 0.6f * Time.deltaTime;
+            t += 0.5f * Time.deltaTime;
 
-            if (camCheckpoint && /*isCamWithinReachToPoint(P1.position)*/t > 0.475f && t < 0.525f)
+            if (camCheckpoint)
             {
                 swiping = false;
+                //transferingToNewPoint = false;
             }
-            if (t >= 1)
+            if (t >= 1f)
             {
                 camCheckpoint = true;
                 transferingToNewPoint = true;
