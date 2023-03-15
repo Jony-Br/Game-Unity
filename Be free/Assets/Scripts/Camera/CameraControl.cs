@@ -7,24 +7,26 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private Transform P0;
     [SerializeField] private Transform P1;
     [SerializeField] private Transform P2;
-    [SerializeField] private Transform P3;//
-    [SerializeField] private Vector3 tempPoint;
+    [SerializeField] private Transform P3;
     [SerializeField] private Transform lookPoint;
     [Range(0f, 1f), SerializeField] private float t = 0.5f;
     [SerializeField] private Vector3[] cameraLocs;
 
-    private bool camCheckpoint = false;
     private bool swiping = false;
-    private bool transferingToNewPoint = false;
     private int iter = 6;
 
     private void Start()
     {
+
+        FindTangent();
+
         t = 1f;
         transform.position = CalculateLerp.CalcLerp(Mathf.Clamp01(t), P0.position, P1.position, P2.position, P3.position);
         transform.LookAt(lookPoint);
     }
-
+    void FindTangent() {
+        
+    }
     private void Update()
     {
 
@@ -36,7 +38,6 @@ public class CameraControl : MonoBehaviour
             t += 0.5f * Time.deltaTime;
             if (t >= 1f)
             {
-
                 swiping = false;
                 P0.position = cameraLocs[iter - 3];
                 P1.position = cameraLocs[iter - 2];
